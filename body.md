@@ -1,17 +1,17 @@
 ---
 title: "You're a Great Title"
 subtitle: "Aren't you? Yes you are."
-author: 
+author:
+- name: Beatrice Applesauce, PhD
+  affiliation: University of Applesauce
+  place: false
+  email: beatrice@applesauce.edu
+  surname: Applesauce
 - name: Eric Robsky Huntley, PhD
   affiliation: Massachusetts Institute of Technology
   place: false
   email: ehuntley@mit.edu
   surname: Robsky Huntley
-- name: Beatrice Applesauce
-  affiliation: University of Applesauce
-  place: false
-  email: beatrice@applesauce.edu
-  surname: Applesauce
 ---
 
 # Introduction

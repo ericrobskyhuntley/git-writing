@@ -450,7 +450,7 @@ $else$
 $endif$
 $if(abstract)$
 \begin{abstract}
-$abstract$
+$if(indent)$$else$\noindent$endif$ $abstract$
 \end{abstract}
 $endif$
 $endif$
