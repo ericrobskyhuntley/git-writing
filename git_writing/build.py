@@ -103,7 +103,9 @@ def build_doc(out_file, out_format, zotero_id=None):
     text = conc_files(['yaml', 'md'])
 
     if zotero_id or len(glob(path.join(CWD, '*.bib'))) > 0:
-        text += "\n\n ## References"
+        text += "\n\n#  References"
+
+    print(text)
 
     pypandoc.convert_text(
         text,
