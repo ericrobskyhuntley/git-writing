@@ -113,6 +113,7 @@ $endif$
 $if(indent)$
 $else$
 \makeatletter
+
 \@ifundefined{KOMAClassName}{% if non-KOMA class
   \IfFileExists{parskip.sty}{%
     \usepackage{parskip}
@@ -391,19 +392,19 @@ $if(csquotes)$
 $endif$
 
 \makeatletter
+
+
+
 \newcommand\presubtitle[1]{\gdef\@presubtitle{#1}}
 \newcommand\postsubtitle[1]{\gdef\@postsubtitle{#1}}
 
-% Document title flush left.
-\pretitle{\begin{flushleft}\scshape\LARGE}
-\posttitle{\end{flushleft}}
-\presubtitle{\begin{flushleft}\itshape\large}
-\postsubtitle{\end{flushleft}}
-\preauthor{\vspace*{0.2in}\begin{flushleft}\large} % makes author flush right
-\postauthor{\end{flushleft}}
-\predate{\begin{flushleft}\large} % makes date title flush right
-\postdate{\end{flushleft}}
-
+$if(git_date)$
+\date{$git_date$}
+$elseif(date)$
+\date{$date$}
+$else$
+\date{}
+$endif$ 
 $if(title)$
 \title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
 $endif$
@@ -412,10 +413,47 @@ $if(beamer)$
 $else$
 \newcommand\subtitle[1]{%
   \renewcommand{\maketitlehookb}{\@presubtitle #1\@postsubtitle}
-  \newcommand\thesubtitle{#1}}
+  \newcommand\thesubtitle{#1}}  
+
 \makeatother
 $endif$
 \subtitle{$subtitle$}
+
+
+\makeatletter
+\renewcommand\@maketitle{%
+  \newpage
+  \null
+  \vskip 1in%
+  \begin{flushleft}
+  {\begin{flushright}\normalsize \@date \footnote{
+    $if(git_branch)$
+    $git_name$ (\href{mailto:$git_email$}{$git_email$}) made commit \texttt{$git_sha$} on $git_date$ at $git_time$. The commit message was "$git_message$".
+    $endif$}\end{flushright}}%
+  \vskip  1em
+  \let \footnote \thanks
+  {\scshape\LARGE \@title \par}%
+  {\itshape\large $subtitle $ \par}%
+  \vskip 1.5em%
+  {\large
+    \begin{tabular}[t]{@{}ll@{}}%
+      \@author
+    \end{tabular}\par}%
+  \end{flushleft}
+  \par
+  \vskip 1.5em}
+
+  % Document title flush left.
+% \pretitle{\begin{flushleft}\scshape\LARGE}
+% \posttitle{\end{flushleft}}
+% \presubtitle{\begin{flushleft}\itshape\large}
+% \postsubtitle{\end{flushleft}}
+% \preauthor{\vspace*{0.2in}\begin{flushleft}\large} % makes author flush right
+% \postauthor{\end{flushleft}}
+% \predate{\begin{flushleft}\vspace{-3in}\normalsize} % makes date title flush right
+% \postdate{\end{flushleft}\vspace{3in}}
+
+  
 $endif$
 $if(author)$
   \author{$for(author)$\normalsize $author.name$ \\
@@ -425,7 +463,6 @@ $if(author)$
     \footnotesize\href{mailto:$author.email$}{$author.email$}\vspace*{0.2in}\\
     $endfor$}
 $endif$
-\date{$date$}
 $if(beamer)$
 $if(institute)$
 \institute{$for(institute)$$institute$$sep$ \and $endfor$}
@@ -448,6 +485,7 @@ $if(beamer)$
 $else$
 \maketitle
 $endif$
+
 $if(abstract)$
 \begin{abstract}
 $if(indent)$$else$\noindent$endif$ $abstract$
