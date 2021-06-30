@@ -295,16 +295,16 @@ $endfor$
 \lhead{\footnotesize \emph{
   %This sucks but there's no way to do evaluate
   %truth of numeric conditional using Pandoc pipes.
-  \ifnum $author/length$ > 3 
-    $for(author/first)$$author.surname$$endfor$ et al.
+  \ifnum $authors/length$ > 3 
+    $for(authors/first)$$it.surname$$endfor$ et al.
   \else
-    $if(author/allbutlast)$
-      $for(author/allbutlast)$
+    $if(authors/allbutlast)$
+      $for(authors/allbutlast)$
         $it.surname$$sep$,
       $endfor$
-      and $for(author/last)$$author.surname$$endfor$
+      and $for(authors/last)$$authors.surname$$endfor$
     $else$
-      $for(author)$
+      $for(authors)$
         $it.surname$
       $endfor$
     $endif$
@@ -443,24 +443,14 @@ $endif$
   \par
   \vskip 1.5em}
 
-  % Document title flush left.
-% \pretitle{\begin{flushleft}\scshape\LARGE}
-% \posttitle{\end{flushleft}}
-% \presubtitle{\begin{flushleft}\itshape\large}
-% \postsubtitle{\end{flushleft}}
-% \preauthor{\vspace*{0.2in}\begin{flushleft}\large} % makes author flush right
-% \postauthor{\end{flushleft}}
-% \predate{\begin{flushleft}\vspace{-3in}\normalsize} % makes date title flush right
-% \postdate{\end{flushleft}\vspace{3in}}
-
   
 $endif$
-$if(author)$
-  \author{$for(author)$\normalsize $author.name$ \\
-    $if(author.affiliation)$
-      \normalsize $author.affiliation$$if(author.place)$, $author.place$ $endif$ \\
+$if(authors)$
+  \author{$for(authors)$\normalsize $it.name$ \\
+    $if(it.affiliation)$
+      \normalsize $it.affiliation$$if(it.place)$, $it.place$ $endif$ \\
     $endif$
-    \footnotesize\href{mailto:$author.email$}{$author.email$}\vspace*{0.2in}\\
+    \footnotesize\href{mailto:$author.email$}{$it.email$}\vspace*{0.2in}\\
     $endfor$}
 $endif$
 $if(beamer)$
