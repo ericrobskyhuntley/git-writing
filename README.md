@@ -4,7 +4,7 @@ This package accomplishes a number of the tedious, tedious tasks associated with
 
 + initiate Git repos that include all documents necessary for particular types of writing
 + build beautiful documents using a Pandoc-LaTeX workflow that are also capable of folding in Git version control metadata
-+ remove the additional step of
++ remove the additional step of managing your Bibtex bibliography---you already have a Zotero collection! Why spend your time worrying after a local copy?
 
 ...this might be for you. It includes templates for multiple types of writing.
 
