@@ -1,6 +1,6 @@
 # Git Writing
 
-This package accomplishes a growing number of tasks associated with reproducible and version-controlled academic writing---in other words, it Gits (🤓) you writing. If you've been looking for a package to...
+This package accomplishes a number of the tedious, tedious tasks associated with reproducible and version-controlled academic writing---in other words, it Gits (🤓) you writing. [A sample of the document produced by the template is here](https://ericrobskyhuntley.org/media/other/git_writing_output.pdf) (it expands on and modifies the Pandoc pdf LaTeX template). If you've been looking for a package to...
 
 + initiate Git repos that include all documents necessary for particular types of writing
 + build beautiful documents using a Pandoc-LaTeX workflow that are also capable of folding in Git version control metadata
