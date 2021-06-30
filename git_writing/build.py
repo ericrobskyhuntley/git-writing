@@ -76,7 +76,7 @@ def conc_files(extensions, exclude=['README.md']):
                     string = ''.join((string, r.read(), '\n'))
     return string
 
-def find_file(extension, dir=FILEPATH):
+def find_file(extension, dir=CWD):
     return glob(path.join(dir, '.'.join(('**/*', extension))), recursive=True)[0]
 
 def build_doc(out_file, out_format, zotero_id=None): 
@@ -91,7 +91,7 @@ def build_doc(out_file, out_format, zotero_id=None):
     args = [
         '--pdf-engine=xelatex',
         '--template='+ find_file('tex', dir=FILEPATH),
-        '--csl=' + find_file('csl'),
+        '--csl=' + find_file('csl', dir=FILEPATH),
         '--highlight-style=kate',
     ]
 
@@ -99,8 +99,14 @@ def build_doc(out_file, out_format, zotero_id=None):
     write_git()
 
     print("Converting document...")
+
+    text = conc_files(['yaml', 'md'])
+
+    if zotero_id or len(glob(path.join(CWD, '*.bib'))) > 0:
+        text += "\n\n ## References"
+
     pypandoc.convert_text(
-        conc_files(['yaml', 'md']),
+        text,
         out_format,
         format='md',
         outputfile=path.join(CWD, out_file),
