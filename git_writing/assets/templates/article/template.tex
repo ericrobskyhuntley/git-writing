@@ -292,32 +292,35 @@ $endfor$
 \renewcommand{\headrulewidth}{0pt}
 
 \rhead{\footnotesize \emph{$title$}}
-$if(authors)$
-\lhead{\footnotesize \emph{
-  %This sucks but there's no way to do evaluate
-  %truth of numeric conditional using Pandoc pipes.
-  \ifnum $authors/length$ > 3 
-    $for(authors/first)$
-      $if(it.surname)$
-        $it.surname$ et al.
-      $endif$
-    $endfor$
-  \else
-    $if(authors/allbutlast)$
-      $for(authors/allbutlast)$
-        $if(it.surname)$$it.surname$, $endif$
-      $endfor$
-      and $for(authors/last)$$if(it.surname)$$authors.surname$$endif$$endfor$
-    $else$
-      $for(authors)$
+$if(anon)$
+$else$
+  $if(authors)$
+  \lhead{\footnotesize \emph{
+    %This sucks but there's no way to do evaluate
+    %truth of numeric conditional using Pandoc pipes.
+    \ifnum $authors/length$ > 3 
+      $for(authors/first)$
         $if(it.surname)$
-          $it.surname$
+          $it.surname$ et al.
         $endif$
       $endfor$
-    $endif$
-  \fi
+    \else
+      $if(authors/allbutlast)$
+        $for(authors/allbutlast)$
+          $if(it.surname)$$it.surname$, $endif$
+        $endfor$
+        and $for(authors/last)$$if(it.surname)$$authors.surname$$endif$$endfor$
+      $else$
+        $for(authors)$
+          $if(it.surname)$
+            $it.surname$
+          $endif$
+        $endfor$
+      $endif$
+    \fi
+    }
   }
-}
+  $endif$
 $endif$
 $if(draft)$
   \lfoot{\footnotesize\href{mailto:}{\emph{Draft. Contact before citing.}}}
@@ -436,35 +439,40 @@ $endif$
   \begin{flushleft}
   {\begin{flushright}\normalsize \@date \footnote{
     $if(git_branch)$
-    $git_name$ (\href{mailto:$git_email$}{$git_email$}) made commit \texttt{$git_sha$} on $git_date$ at $git_time$. The commit message was "$git_message$".
+      $if(anon)$Commit$else$$git_name$ (\href{mailto:$git_email$}{$git_email$}) made commit$endif$ \texttt{$git_sha$} on branch \texttt{$git_branch$} on $git_date$ at $git_time$. The commit message was "$git_message$".
     $endif$}\end{flushright}}%
   \vskip  1em
   \let \footnote \thanks
   {\scshape\LARGE \@title \par}%
   {\itshape\large $subtitle $ \par}%
-  $if(authors)$
-  \vskip 1.5em%
-  {\large
-    \begin{tabular}[t]{@{}ll@{}}%
-      \@author
-    \end{tabular}\par}%
+  $if(anon)$
+  $else$
+    $if(authors)$
+    \vskip 1.5em%
+    {\large
+      \begin{tabular}[t]{@{}ll@{}}%
+        \@author
+      \end{tabular}\par}%
+    $endif$
   $endif$
   \end{flushleft}
   \par
-  \vskip 1.5em}
-
-  
+  \vskip 1.5em}  
 $endif$
-$if(authors)$
-  \author{$for(authors)$\normalsize 
-    $if(it.name)$ $it.name$ $endif$ \\
-    $if(it.affiliation)$
-      \normalsize $it.affiliation$$if(it.place)$, $it.place$ $endif$ \\
-    $endif$
-    $if(it.email)$
-    \footnotesize\href{mailto:$author.email$}{$it.email$}\vspace*{0.2in}\\
-    $endif$
-    $endfor$}
+
+$if(anon)$
+$else$
+  $if(authors)$
+    \author{$for(authors)$\normalsize 
+      $if(it.name)$ $it.name$ $endif$ \\
+      $if(it.affiliation)$
+        \normalsize $it.affiliation$$if(it.place)$, $it.place$ $endif$ \\
+      $endif$
+      $if(it.email)$
+      \footnotesize\href{mailto:$author.email$}{$it.email$}\vspace*{0.2in}\\
+      $endif$
+      $endfor$}
+  $endif$
 $endif$
 $if(beamer)$
 $if(institute)$
