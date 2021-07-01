@@ -37,8 +37,8 @@ def git_init(name, repo_path=CWD, genre='article', draft=False):
     repo_file_list = glob(path.join(repo_dir, '*'))
     r.index.add(repo_file_list)
     head = r.active_branch
-    r.index.commit('initial commit')
     # Rename primary branch to 'main'.
+    r.index.commit('initial commit')
     head.rename('main')
     if draft:
         head.checkout(b='draft')
