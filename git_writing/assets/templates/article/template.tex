@@ -292,25 +292,33 @@ $endfor$
 \renewcommand{\headrulewidth}{0pt}
 
 \rhead{\footnotesize \emph{$title$}}
+$if(authors)$
 \lhead{\footnotesize \emph{
   %This sucks but there's no way to do evaluate
   %truth of numeric conditional using Pandoc pipes.
   \ifnum $authors/length$ > 3 
-    $for(authors/first)$$it.surname$$endfor$ et al.
+    $for(authors/first)$
+      $if(it.surname)$
+        $it.surname$ et al.
+      $endif$
+    $endfor$
   \else
     $if(authors/allbutlast)$
       $for(authors/allbutlast)$
-        $it.surname$$sep$,
+        $if(it.surname)$$it.surname$, $endif$
       $endfor$
-      and $for(authors/last)$$authors.surname$$endfor$
+      and $for(authors/last)$$if(it.surname)$$authors.surname$$endif$$endfor$
     $else$
       $for(authors)$
-        $it.surname$
+        $if(it.surname)$
+          $it.surname$
+        $endif$
       $endfor$
     $endif$
   \fi
   }
 }
+$endif$
 $if(draft)$
   \lfoot{\footnotesize\href{mailto:}{\emph{Draft. Contact before citing.}}}
 $endif$
@@ -434,11 +442,13 @@ $endif$
   \let \footnote \thanks
   {\scshape\LARGE \@title \par}%
   {\itshape\large $subtitle $ \par}%
+  $if(authors)$
   \vskip 1.5em%
   {\large
     \begin{tabular}[t]{@{}ll@{}}%
       \@author
     \end{tabular}\par}%
+  $endif$
   \end{flushleft}
   \par
   \vskip 1.5em}
@@ -446,11 +456,14 @@ $endif$
   
 $endif$
 $if(authors)$
-  \author{$for(authors)$\normalsize $it.name$ \\
+  \author{$for(authors)$\normalsize 
+    $if(it.name)$ $it.name$ $endif$ \\
     $if(it.affiliation)$
       \normalsize $it.affiliation$$if(it.place)$, $it.place$ $endif$ \\
     $endif$
+    $if(it.email)$
     \footnotesize\href{mailto:$author.email$}{$it.email$}\vspace*{0.2in}\\
+    $endif$
     $endfor$}
 $endif$
 $if(beamer)$
