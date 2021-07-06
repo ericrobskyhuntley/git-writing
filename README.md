@@ -8,6 +8,10 @@ This package accomplishes a number of the tedious, tedious tasks associated with
 
 ...this might be for you. It includes templates for multiple types of writing.
 
+## Requires Pandoc
+
+This package requires that Pandoc be installed. I recommend you consult [the Pandoc documentation for installation](https://pandoc.org/installing.html) instructions.
+
 ## Initiating a new repository
 
 From the CLI, `git_writing` will initiate a new repository, copy template files, and commit with an "initial commit" message. For example...
