@@ -3,32 +3,14 @@ import pypandoc
 from os import path, getcwd, remove, environ
 from glob import glob
 from datetime import datetime
-import argparse
 
 CWD = getcwd()
 FILEPATH = path.dirname(path.abspath(__file__))
 GIT_YAML = 'git.yaml'
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-t", "--type", help="Type of document to build.", choices=['pdf'], default='pdf')
-parser.add_argument("-o", "--outputfile", help="Name of output document with extension.", default='output.pdf')
-parser.add_argument("-c", "--collection", help="ID of Zotero collection.", default=None)
-parser.add_argument("-k", "--keepbib", help="Whether to keep bibliography. Keep on final build for replicability reasons.", action='store_true')
-args = parser.parse_args()
-
-if args.collection:
+def fetch_zotero(c_id):
     from pyzotero import zotero
     import bibtexparser
-    COLLECTION = args.collection
-else:
-    COLLECTION = None
-
-TYPE = args.type
-
-OUTPUTFILE = args.outputfile
-KEEPBIB = args.keepbib
-
-def fetch_zotero(c_id):
     zot_id = environ.get('ZOTERO_ID')
     zot_api = environ.get('ZOTERO_KEY')
     zot = zotero.Zotero(zot_id, 'user', zot_api)
@@ -79,7 +61,7 @@ def conc_files(extensions, exclude=['README.md']):
 def find_file(extension, dir=CWD):
     return glob(path.join(dir, '.'.join(('**/*', extension))), recursive=True)[0]
 
-def build_doc(out_file, out_format, zotero_id=None): 
+def build_doc(out_file, out_format, zotero_id=None, keepbib=False): 
 
     addl = []
     if zotero_id:
@@ -104,9 +86,7 @@ def build_doc(out_file, out_format, zotero_id=None):
 
     if zotero_id or len(glob(path.join(CWD, '*.bib'))) > 0:
         text += "\n\n#  References"
-
-    print(text)
-
+    
     pypandoc.convert_text(
         text,
         out_format,
@@ -120,5 +100,17 @@ def build_doc(out_file, out_format, zotero_id=None):
     if zotero_id and not KEEPBIB:
         remove(path.join(CWD, 'references.bib'))
 
+def main():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--type", help="Type of document to build.", choices=['pdf'], default='pdf')
+    parser.add_argument("-o", "--outputfile", help="Name of output document with extension.", default='output.pdf')
+    parser.add_argument("-c", "--collection", help="ID of Zotero collection.", default=None)
+    parser.add_argument("-k", "--keepbib", help="Whether to keep bibliography. Keep on final build for replicability reasons.", action='store_true')
+    args = parser.parse_args()
+
+    build_doc(out_file=args.outputfile, out_format=args.type, zotero_id=args.collection, keepbib=args.keepbib)
+
+
 if __name__ == '__main__':
-    build_doc(out_file=OUTPUTFILE, out_format=TYPE, zotero_id=COLLECTION)
+    main()
