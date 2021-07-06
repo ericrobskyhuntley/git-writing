@@ -10,10 +10,10 @@ This package accomplishes a number of the tedious, tedious tasks associated with
 
 ## Initiating a new repository
 
-It will initiate a new repository. All files below will be created and committed to the repository with an "initial commit" message.
+From the CLI, `git_writing` will initiate a new repository, copy template files, and commit with an "initial commit" message. For example...
 
 ```bash
-python ./init.py --genre article --name reponame
+git_writing --genre article --name reponame
 ```
 
 Currently, there is only an 'article' template, but this will be expanding. 'Repo name' here refers only to the name of the directory into which a repository will be initiated, and the first line of the `README.md` file which is auto-populated. Initiating a new repo will create a directory that looks like this:
@@ -68,14 +68,16 @@ In addition, you'll need to find the collection ID that your particular work is 
 
 ## Building Your Document
 
+From the CLI, the `git_building` command will build your document. Sensible defaults are provided so you don't need any flags.
+
 ```bash
-python ./build.py
+git_building
 ```
 
-This will build a document using Pandoc running through a custom LaTeX template. The above assumes that you've included your own `.bib` file (provided, again, that citations are needed). If you want to use a Zotero collection, simply run...
+This will build a document using Pandoc running through a custom LaTeX template. The above assumes that you've included your own `.bib` file (provided, again, that citations are needed---otherwise, no `bib` is necessary). If you want to use a Zotero collection, simply run...
 
 ```bash
-python ./build.py --collection 'ZOTEROCOLLECTIONID'
+git_building --collection 'ZOTEROCOLLECTIONID'
 ```
 
 ## Credit Where Credit is Due
